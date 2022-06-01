@@ -79,13 +79,11 @@ function autocmd.load_autocmds()
 			{ "FileType", "alpha", "set showtabline=0" },
 			{ "FileType", "markdown", "set wrap" },
 			{ "FileType", "make", "set noexpandtab shiftwidth=8 softtabstop=0" },
-			-- Google tab style
-			{ "FileType", "c,cpp", "set expandtab tabstop=2 shiftwidth=2" },
 			{ "FileType", "dap-repl", "lua require('dap.ext.autocompl').attach()" },
 			{
 				"FileType",
 				"*",
-				[[setlocal formatoptions-=c formatoptions-=r formatoptions-=o]],
+				[[setlocal formatoptions-=cro]],
 			},
 			{
 				"FileType",
