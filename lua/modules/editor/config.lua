@@ -2,6 +2,9 @@ local config = {}
 local sessions_dir = vim.fn.stdpath("data") .. "/sessions/"
 
 function config.nvim_treesitter()
+	vim.api.nvim_set_option_value("foldmethod", "expr", {})
+	vim.api.nvim_set_option_value("foldexpr", "nvim_treesitter#foldexpr()", {})
+
 	require("nvim-treesitter.configs").setup({
 		ensure_installed = {
 			"bash",
@@ -165,6 +168,12 @@ function config.toggleterm()
 			elseif term.direction == "vertical" then
 				return vim.o.columns * 0.40
 			end
+		end,
+		on_open = function()
+			-- Prevent infinite calls from freezing neovim.
+			-- Only set these options specific to this terminal buffer.
+			vim.api.nvim_set_option_value("foldmethod", "manual", { scope = "local" })
+			vim.api.nvim_set_option_value("foldexpr", "0", { scope = "local" })
 		end,
 		open_mapping = false, -- [[<c-\>]],
 		hide_numbers = true, -- hide the number column in toggleterm buffers
@@ -421,6 +430,18 @@ function config.better_escape()
 		-- keys = function()
 		--   return vim.api.nvim_win_get_cursor(0)[2] > 1 and '<esc>l' or '<esc>'
 		-- end,
+	})
+end
+
+function config.accelerated_jk()
+	require("accelerated-jk").setup({
+		mode = "time_driven",
+		enable_deceleration = false,
+		acceleration_motions = {},
+		acceleration_limit = 150,
+		acceleration_table = { 7, 12, 17, 21, 24, 26, 28, 30 },
+		-- when 'enable_deceleration = true', 'deceleration_table = { {200, 3}, {300, 7}, {450, 11}, {600, 15}, {750, 21}, {900, 9999} }'
+		deceleration_table = { { 150, 9999 } },
 	})
 end
 

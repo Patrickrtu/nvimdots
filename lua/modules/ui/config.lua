@@ -253,15 +253,17 @@ function config.catppuccin()
 			cmp = true,
 			dap = { enabled = true, enable_ui = true },
 			notify = true,
-			symbols_outline = true,
+			symbols_outline = false,
 			coc_nvim = false,
 			leap = false,
 			neotree = { enabled = false, show_root = true, transparent_panel = false },
-			telekasten = true,
+			telekasten = false,
 			mini = false,
-			aerial = false,
+			aerial = true,
 			vimwiki = true,
 			beacon = false,
+			navic = false,
+			overseer = false,
 		},
 		color_overrides = {
 			mocha = {
@@ -313,6 +315,15 @@ function config.catppuccin()
 				LspDiagnosticsHint = { fg = cp.rosewater },
 				LspDiagnosticsVirtualTextHint = { fg = cp.rosewater },
 				LspDiagnosticsUnderlineHint = { sp = cp.rosewater },
+
+				-- For Ts-Rainbow
+				rainbowcol1 = { bg = cp.none },
+				rainbowcol2 = { bg = cp.none },
+				rainbowcol3 = { bg = cp.none },
+				rainbowcol4 = { bg = cp.none },
+				rainbowcol5 = { bg = cp.none },
+				rainbowcol6 = { bg = cp.none },
+				rainbowcol7 = { bg = cp.none },
 
 				-- For treesitter.
 				TSField = { fg = cp.rosewater },
@@ -454,9 +465,9 @@ function config.lualine()
 		lualine_y = {},
 		lualine_z = { "location" },
 	}
-	local aerial = {
+	local outline = {
 		sections = mini_sections,
-		filetypes = { "aerial" },
+		filetypes = { "lspsagaoutline" },
 	}
 	local dapui_scopes = {
 		sections = simple_sections,
@@ -555,7 +566,7 @@ function config.lualine()
 			"nvim-tree",
 			"toggleterm",
 			"fugitive",
-			aerial,
+			outline,
 			dapui_scopes,
 			dapui_breakpoints,
 			dapui_stacks,
@@ -588,6 +599,7 @@ end
 
 function config.nvim_tree()
 	require("nvim-tree").setup({
+		create_in_closed_folder = false,
 		respect_buf_cwd = true,
 		auto_reload_on_write = true,
 		disable_netrw = false,
@@ -601,6 +613,8 @@ function config.nvim_tree()
 		sort_by = "name",
 		update_cwd = true,
 		view = {
+			adaptive_size = false,
+			centralize_selection = false,
 			width = 30,
 			height = 30,
 			side = "left",
@@ -609,43 +623,71 @@ function config.nvim_tree()
 			relativenumber = false,
 			signcolumn = "yes",
 			hide_root_folder = false,
+			float = {
+				enable = false,
+				open_win_config = {
+					relative = "editor",
+					border = "rounded",
+					width = 30,
+					height = 30,
+					row = 1,
+					col = 1,
+				},
+			},
 		},
 		renderer = {
+			add_trailing = false,
+			group_empty = true,
+			highlight_git = false,
+			full_name = false,
+			highlight_opened_files = "none",
+			special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md", "CMakeLists.txt" },
+			symlink_destination = true,
 			indent_markers = {
 				enable = true,
 				icons = {
 					corner = "└ ",
 					edge = "│ ",
+					item = "│ ",
 					none = "  ",
 				},
 			},
 			root_folder_modifier = ":e",
 			icons = {
+				webdev_colors = true,
+				git_placement = "before",
+				show = {
+					file = true,
+					folder = true,
+					folder_arrow = false,
+					git = true,
+				},
 				padding = " ",
 				symlink_arrow = "  ",
 				glyphs = {
-					["default"] = "", --
-					["symlink"] = "",
-					["git"] = {
-						["unstaged"] = "",
-						["staged"] = "", --
-						["unmerged"] = "שׂ",
-						["renamed"] = "", --
-						["untracked"] = "ﲉ",
-						["deleted"] = "",
-						["ignored"] = "", --◌
+					default = "", --
+					symlink = "",
+					bookmark = "",
+					git = {
+						unstaged = "",
+						staged = "", --
+						unmerged = "שׂ",
+						renamed = "", --
+						untracked = "ﲉ",
+						deleted = "",
+						ignored = "", --◌
 					},
-					["folder"] = {
-						-- ['arrow_open'] = "",
-						-- ['arrow_closed'] = "",
-						["arrow_open"] = "",
-						["arrow_closed"] = "",
-						["default"] = "",
-						["open"] = "",
-						["empty"] = "",
-						["empty_open"] = "",
-						["symlink"] = "",
-						["symlink_open"] = "",
+					folder = {
+						-- arrow_open = "",
+						-- arrow_closed = "",
+						arrow_open = "",
+						arrow_closed = "",
+						default = "",
+						open = "",
+						empty = "",
+						empty_open = "",
+						symlink = "",
+						symlink_open = "",
 					},
 				},
 			},
@@ -682,6 +724,52 @@ function config.nvim_tree()
 						buftype = { "nofile", "terminal", "help" },
 					},
 				},
+			},
+			remove_file = {
+				close_window = true,
+			},
+		},
+		diagnostics = {
+			enable = false,
+			show_on_dirs = false,
+			debounce_delay = 50,
+			icons = {
+				hint = "",
+				info = "",
+				warning = "",
+				error = "",
+			},
+		},
+		filesystem_watchers = {
+			enable = true,
+			debounce_delay = 50,
+		},
+		git = {
+			enable = true,
+			ignore = true,
+			show_on_dirs = true,
+			timeout = 400,
+		},
+		trash = {
+			cmd = "gio trash",
+			require_confirm = true,
+		},
+		live_filter = {
+			prefix = "[FILTER]: ",
+			always_show_folders = true,
+		},
+		log = {
+			enable = false,
+			truncate = false,
+			types = {
+				all = false,
+				config = false,
+				copy_paste = false,
+				dev = false,
+				diagnostics = false,
+				git = false,
+				profile = false,
+				watcher = false,
 			},
 		},
 	})
