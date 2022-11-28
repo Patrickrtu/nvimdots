@@ -25,6 +25,7 @@ function config.alpha()
 		[[⠿⠛⠛⠛⠛⠛⠛⠻⢿⣿⣿⣿⣿⣯⣟⠷⢷⣿⡿⠋⠀⠀⠀⠀⣵⡀⢠⡿⠋⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
 		[[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⢿⣿⣿⠂⠀⠀⠀⠀⠀⢀⣽⣿⣿⣿⣿⣿⣿⣿⣍⠛⠿⣿⣿⣿⣿⣿⣿]],
 	}
+	dashboard.section.header.opts.hl = "Type"
 
 	local function button(sc, txt, leader_txt, keybind, keybind_opts)
 		local sc_after = sc:gsub("%s", ""):gsub(leader_txt, "<leader>")
@@ -58,15 +59,15 @@ function config.alpha()
 		}
 	end
 
-	local leader = "comma"
+	local leader = " "
 	dashboard.section.buttons.val = {
-		button("comma s c", " Scheme change", leader, "<cmd>Telescope colorscheme<cr>"),
-		button("comma f r", " File frecency", leader, "<cmd>Telescope frecency<cr>"),
-		button("comma f e", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
-		button("comma f p", " Project find", leader, "<cmd>Telescope project<cr>"),
-		button("comma f f", " File find", leader, "<cmd>Telescope find_files<cr>"),
-		button("comma f n", " File new", leader, "<cmd>enew<cr>"),
-		button("comma f w", " Word find", leader, "<cmd>Telescope live_grep<cr>"),
+		button("space s c", " Scheme change", leader, "<cmd>Telescope colorscheme<cr>"),
+		button("space f r", " File frecency", leader, "<cmd>Telescope frecency<cr>"),
+		button("space f e", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
+		button("space f p", " Project find", leader, "<cmd>Telescope project<cr>"),
+		button("space f f", " File find", leader, "<cmd>Telescope find_files<cr>"),
+		button("space f n", " File new", leader, "<cmd>enew<cr>"),
+		button("space f w", " Word find", leader, "<cmd>Telescope live_grep<cr>"),
 	}
 	dashboard.section.buttons.opts.hl = "String"
 
@@ -242,6 +243,9 @@ function config.catppuccin()
 					CursorLineNr = { fg = cp.green },
 					Search = { bg = cp.surface1, fg = cp.pink, style = { "bold" } },
 					IncSearch = { bg = cp.pink, fg = cp.surface1 },
+					Keyword = { fg = cp.pink },
+					Type = { fg = cp.blue },
+					Typedef = { fg = cp.yellow, link = "" },
 
 					-- For native lsp configs.
 					DiagnosticVirtualTextError = { bg = cp.none },
@@ -264,7 +268,7 @@ function config.catppuccin()
 					["@property"] = { fg = cp.yellow },
 
 					["@include"] = { fg = cp.teal },
-					["@operator"] = { fg = cp.sky },
+					-- ["@operator"] = { fg = cp.sky },
 					["@keyword.operator"] = { fg = cp.sky },
 					["@punctuation.special"] = { fg = cp.maroon },
 
@@ -286,8 +290,8 @@ function config.catppuccin()
 					-- ["@function"] = { fg = cp.blue },
 					["@function.macro"] = { fg = cp.red, style = {} },
 					["@parameter"] = { fg = cp.rosewater },
+					["@keyword"] = { fg = cp.red, style = { "italic" }, link = "" },
 					["@keyword.function"] = { fg = cp.maroon },
-					["@keyword"] = { fg = cp.red },
 					["@keyword.return"] = { fg = cp.pink, style = {} },
 
 					-- ["@text.note"] = { fg = cp.base, bg = cp.blue },
@@ -303,7 +307,7 @@ function config.catppuccin()
 					["@punctuation.bracket"] = { fg = cp.overlay2 },
 					-- ["@string"] = { fg = cp.green },
 					-- ["@string.regex"] = { fg = cp.peach },
-					-- ["@type"] = { fg = cp.yellow },
+					["@type"] = { fg = cp.yellow, link = "" },
 					["@variable"] = { fg = cp.text },
 					["@tag.attribute"] = { fg = cp.mauve, style = { "italic" } },
 					["@tag"] = { fg = cp.peach },
@@ -567,7 +571,7 @@ function config.nvim_tree()
 					none = "  ",
 				},
 			},
-			root_folder_modifier = ":e",
+			root_folder_label = ":.:s?.*?/..?",
 			icons = {
 				webdev_colors = true,
 				git_placement = "before",
