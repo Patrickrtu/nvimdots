@@ -3,4 +3,4 @@ if not vim.g.vscode then
 end
 
 local keymap = vim.api.nvim_set_keymap
-keymap('n', ';', ':', {})
+keymap("n", ";", ":", {})
