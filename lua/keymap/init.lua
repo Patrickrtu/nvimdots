@@ -19,9 +19,6 @@ local plug_map = {
 	["n|<leader>px"] = map_cr("Lazy clean"):with_silent():with_noremap():with_nowait():with_desc("package: Clean"),
 }
 
-local keymap = vim.api.nvim_set_keymap
-keymap("n", ";", ":", {})
-
 bind.nvim_load_mapping(plug_map)
 
 -- Plugin keymaps
